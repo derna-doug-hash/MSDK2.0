@@ -1,8 +1,8 @@
 name: Build Autel Debug APK
-on: [push]
+on: [push, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: set up JDK 11
@@ -14,7 +14,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew assembleDebug --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true -Pkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx2048m -Dkotlin.daemon.jvm.options=-Xmx1024m"
+        run: ./gradlew assembleDebug --no-daemon -Pandroid.useAndroidX=true -Pandroid.enableJetifier=true -Pkotlin.incremental=false --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
